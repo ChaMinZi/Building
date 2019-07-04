@@ -62,8 +62,6 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         sensorManager = (SensorManager) this.getSystemService(SENSOR_SERVICE);
         cameraContainerLayout = findViewById(R.id.camera_container_layout);
         surfaceView = findViewById(R.id.surface_view);
-        tvCurrentLocation = findViewById(R.id.tv_current_location);
-        tvBearing = findViewById(R.id.tv_bearing);
         arOverlayView = new AROverlayView(this);
     }
 
@@ -190,7 +188,10 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
                     break;
             }
 
-            float[] projectionMatrix = arCamera.getProjectionMatrix();
+            float[] projectionMatrix = new float[16];
+            if (arCamera != null) {
+                projectionMatrix = arCamera.getProjectionMatrix();
+            }
             float[] rotatedProjectionMatrix = new float[16];
             Matrix.multiplyMM(rotatedProjectionMatrix, 0, projectionMatrix, 0, rotationMatrix, 0);
             this.arOverlayView.updateRotatedProjectionMatrix(rotatedProjectionMatrix);
@@ -198,8 +199,6 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
             //Heading
             float[] orientation = new float[3];
             getOrientation(rotatedProjectionMatrix, orientation);
-            double bearing = Math.toDegrees(orientation[0]) + declination;
-            tvBearing.setText(String.format("Bearing: %s", bearing));
         }
     }
 
@@ -260,8 +259,6 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
     private void updateLatestLocation() {
         if (arOverlayView !=null && location != null) {
             arOverlayView.updateCurrentLocation(location);
-            tvCurrentLocation.setText(String.format("lat: %s \nlon: %s \naltitude: %s \n",
-                    location.getLatitude(), location.getLongitude(), location.getAltitude()));
         }
     }
 

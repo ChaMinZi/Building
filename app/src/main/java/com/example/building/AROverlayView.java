@@ -29,8 +29,8 @@ public class AROverlayView extends View {
 
         //Demo points
         arPoints = new ArrayList<ARPoint>() {{
-            add(new ARPoint("Sun Wheel", 16.0404856, 108.2262447, 0));
-            //add(new ARPoint("Linh Ung Pagoda", 16.1072989, 108.2343984, 0));
+            add(new ARPoint("S", 10.0404856, 108.2262447, 0));
+            add(new ARPoint("L", 16.1072989, 108.2343984, 0));
         }};
     }
 
