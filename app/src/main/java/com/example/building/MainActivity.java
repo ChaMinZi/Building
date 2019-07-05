@@ -21,6 +21,7 @@ import android.util.Log;
 import android.view.SurfaceView;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.building.model.ARCamera;
@@ -45,6 +46,8 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
     private AROverlayView arOverlayView;
     private Camera camera;
     private ARCamera arCamera;
+    private TextView tvCurrentLocation;
+    private TextView tvBearing;
 
     private SensorManager sensorManager;
     private final static int REQUEST_CAMERA_PERMISSIONS_CODE = 11;
@@ -61,20 +64,36 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
     private float declination;
 
     boolean InfoVisible = false;
+    private InfoFragment infoFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        if (savedInstanceState == null) {
+            infoFragment = new InfoFragment();
+        }
         sensorManager = (SensorManager) this.getSystemService(SENSOR_SERVICE);
         cameraContainerLayout = findViewById(R.id.camera_container_layout);
         surfaceView = findViewById(R.id.surface_view);
         arOverlayView = new AROverlayView(this);
+        tvCurrentLocation = findViewById(R.id.tv_current_location);
+        tvBearing = findViewById(R.id.tv_bearing);
+    }
 
+    protected void displayFragment(boolean visible){
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.add(R.id.fragmentView, new InfoFragment());
+
+        if (!infoFragment.isAdded())
+            fragmentTransaction.add(R.id.fragmentView, infoFragment);
+
+        if (!visible)
+            fragmentTransaction.hide(infoFragment);
+        else
+            fragmentTransaction.show(infoFragment);
+
         fragmentTransaction.commit();
     }
 
@@ -212,6 +231,8 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
             //Heading
             float[] orientation = new float[3];
             getOrientation(rotatedProjectionMatrix, orientation);
+            double bearing = Math.toDegrees(orientation[0]) + declination;
+            tvBearing.setText(String.format("Bearing: %s", bearing));
         }
     }
 
@@ -271,6 +292,8 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
     private void updateLatestLocation() {
         if (arOverlayView !=null && location != null) {
             arOverlayView.updateCurrentLocation(location);
+            tvCurrentLocation.setText(String.format("lat: %s \nlon: %s \naltitude: %s \n",
+                    location.getLatitude(), location.getLongitude(), location.getAltitude()));
         }
     }
 

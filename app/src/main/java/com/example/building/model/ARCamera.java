@@ -208,7 +208,7 @@ public class ARCamera extends ViewGroup implements SurfaceHolder.Callback {
             this.cameraHeight = height;
 
             Camera.Parameters params = camera.getParameters();
-            params.setPreviewSize(previewSize.width, previewSize.height);
+//            params.setPreviewSize(previewSize.width, previewSize.height);
             requestLayout();
 
             camera.setParameters(params);

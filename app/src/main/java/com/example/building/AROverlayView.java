@@ -19,7 +19,7 @@ import java.util.List;
 
 public class AROverlayView extends View {
 
-    Context context;
+    Context mContext;
     private float[] rotatedProjectionMatrix = new float[16];
     private Location currentLocation;
     private List<ARPoint> arPoints;
@@ -30,7 +30,7 @@ public class AROverlayView extends View {
 
     public AROverlayView(Context context) {
         super(context);
-        this.context = context;
+        this.mContext = context;
 
         //Demo points
         arPoints = new ArrayList<ARPoint>() {{
@@ -64,7 +64,8 @@ public class AROverlayView extends View {
                 final float y = event.getY();
                 if (displayPointF == null) break;
                 for(int i=0 ; i<displayPointF.size(); i++){
-                    if(PointFDistance(new PointF(x,y), displayPointF.get(i))<=radius){
+                    if(PointFDistance(new PointF(x,y), displayPointF.get(i))<=radius) {
+                        ((MainActivity)mContext).displayFragment(false);
                         Log.e("touchShelter", displayARPoint.get(i).getName());
                         return true;
                     }
