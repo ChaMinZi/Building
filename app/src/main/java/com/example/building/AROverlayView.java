@@ -19,7 +19,11 @@ import java.util.List;
 
 public class AROverlayView extends View {
 
+<<<<<<< HEAD
     Context context;
+=======
+    Context mContext;
+>>>>>>> 46acfa233c9730a0dfac4c6f0d5c8d3de5e286c0
     private float[] rotatedProjectionMatrix = new float[16];
     private Location currentLocation;
     private List<ARPoint> arPoints;
@@ -30,7 +34,11 @@ public class AROverlayView extends View {
 
     public AROverlayView(Context context) {
         super(context);
+<<<<<<< HEAD
         this.context = context;
+=======
+        this.mContext = context;
+>>>>>>> 46acfa233c9730a0dfac4c6f0d5c8d3de5e286c0
 
         //Demo points
         arPoints = new ArrayList<ARPoint>() {{
@@ -64,14 +72,25 @@ public class AROverlayView extends View {
                 final float y = event.getY();
                 if (displayPointF == null) break;
                 for(int i=0 ; i<displayPointF.size(); i++){
+<<<<<<< HEAD
                     if(PointFDistance(new PointF(x,y), displayPointF.get(i))<=radius){
                         Log.e("touchShelter", displayARPoint.get(i).getName());
+=======
+                    if(PointFDistance(new PointF(x,y), displayPointF.get(i))<=radius) {
+                        ((MainActivity)mContext).displayFragment(false);
+                        Log.e("touchShelter", displayARPoint.get(i).getName());
+                        return true;
+>>>>>>> 46acfa233c9730a0dfac4c6f0d5c8d3de5e286c0
                     }
                 }
             }
         }
+<<<<<<< HEAD
 
         return true;
+=======
+        return false;
+>>>>>>> 46acfa233c9730a0dfac4c6f0d5c8d3de5e286c0
     }
 
     @Override

@@ -1,7 +1,10 @@
 package com.example.building;
 
 import android.Manifest;
+<<<<<<< HEAD
 import android.app.FragmentManager;
+=======
+>>>>>>> 46acfa233c9730a0dfac4c6f0d5c8d3de5e286c0
 import android.content.pm.PackageManager;
 import android.hardware.Camera;
 import android.hardware.Sensor;
@@ -14,14 +17,20 @@ import android.location.LocationManager;
 import android.opengl.Matrix;
 import android.os.Build;
 import android.os.Bundle;
+<<<<<<< HEAD
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
+=======
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
+>>>>>>> 46acfa233c9730a0dfac4c6f0d5c8d3de5e286c0
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.SurfaceView;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
+<<<<<<< HEAD
 import android.widget.Toast;
 
 import com.example.building.model.ARCamera;
@@ -32,6 +41,13 @@ import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.OnMapReadyCallback;
 
 import static android.Manifest.permission.ACCESS_FINE_LOCATION;
+=======
+import android.widget.TextView;
+import android.widget.Toast;
+
+import com.example.building.model.ARCamera;
+
+>>>>>>> 46acfa233c9730a0dfac4c6f0d5c8d3de5e286c0
 import static android.hardware.SensorManager.AXIS_MINUS_X;
 import static android.hardware.SensorManager.AXIS_MINUS_Y;
 import static android.hardware.SensorManager.AXIS_X;
@@ -44,6 +60,7 @@ import static android.view.Surface.ROTATION_180;
 import static android.view.Surface.ROTATION_270;
 import static android.view.Surface.ROTATION_90;
 
+<<<<<<< HEAD
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
@@ -57,6 +74,9 @@ import com.google.android.libraries.places.compat.Places;
 
 
 public class MainActivity extends AppCompatActivity implements SensorEventListener, LocationListener, OnMapReadyCallback {
+=======
+public class MainActivity extends AppCompatActivity implements SensorEventListener, LocationListener {
+>>>>>>> 46acfa233c9730a0dfac4c6f0d5c8d3de5e286c0
 
     final static String TAG = "ARActivity";
     private SurfaceView surfaceView;
@@ -64,6 +84,11 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
     private AROverlayView arOverlayView;
     private Camera camera;
     private ARCamera arCamera;
+<<<<<<< HEAD
+=======
+    private TextView tvCurrentLocation;
+    private TextView tvBearing;
+>>>>>>> 46acfa233c9730a0dfac4c6f0d5c8d3de5e286c0
 
     private SensorManager sensorManager;
     private final static int REQUEST_CAMERA_PERMISSIONS_CODE = 11;
@@ -79,6 +104,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
     boolean locationServiceAvailable;
     private float declination;
 
+<<<<<<< HEAD
     private GoogleMap mMap;
     PlaceDetectionClient placeDetectionClient;
     private boolean mLocationPermissionGranted;
@@ -89,16 +115,27 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
     String[] cur_place_address;
     float[] cur_place_rating;
     LatLng[] cur_place_latlng;
+=======
+    boolean InfoVisible = false;
+    private InfoFragment infoFragment;
+>>>>>>> 46acfa233c9730a0dfac4c6f0d5c8d3de5e286c0
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+<<<<<<< HEAD
+=======
+        if (savedInstanceState == null) {
+            infoFragment = new InfoFragment();
+        }
+>>>>>>> 46acfa233c9730a0dfac4c6f0d5c8d3de5e286c0
         sensorManager = (SensorManager) this.getSystemService(SENSOR_SERVICE);
         cameraContainerLayout = findViewById(R.id.camera_container_layout);
         surfaceView = findViewById(R.id.surface_view);
         arOverlayView = new AROverlayView(this);
+<<<<<<< HEAD
 
         placeDetectionClient = Places.getPlaceDetectionClient(this);
         mFusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
@@ -106,6 +143,25 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         FragmentManager fragmentManager = getFragmentManager();
         MapFragment mapFragment = (MapFragment)fragmentManager.findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
+=======
+        tvCurrentLocation = findViewById(R.id.tv_current_location);
+        tvBearing = findViewById(R.id.tv_bearing);
+    }
+
+    protected void displayFragment(boolean visible){
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+
+        if (!infoFragment.isAdded())
+            fragmentTransaction.add(R.id.fragmentView, infoFragment);
+
+        if (!visible)
+            fragmentTransaction.hide(infoFragment);
+        else
+            fragmentTransaction.show(infoFragment);
+
+        fragmentTransaction.commit();
+>>>>>>> 46acfa233c9730a0dfac4c6f0d5c8d3de5e286c0
     }
 
     @Override
@@ -113,7 +169,10 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         super.onResume();
         requestCameraPermission();
         requestLocationPermission();
+<<<<<<< HEAD
         //getDeviceLocation();
+=======
+>>>>>>> 46acfa233c9730a0dfac4c6f0d5c8d3de5e286c0
         registerSensors();
         initAROverlayView();
     }
@@ -139,6 +198,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
             this.requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, REQUEST_LOCATION_PERMISSIONS_CODE);
         } else {
             initLocationService();
+<<<<<<< HEAD
             //mLocationPermissionGranted = true;
         }
     }
@@ -192,6 +252,11 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         }
     }*/
 
+=======
+        }
+    }
+
+>>>>>>> 46acfa233c9730a0dfac4c6f0d5c8d3de5e286c0
     public void initAROverlayView() {
         if (arOverlayView.getParent() != null) {
             ((ViewGroup) arOverlayView.getParent()).removeView(arOverlayView);
@@ -293,6 +358,11 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
             //Heading
             float[] orientation = new float[3];
             getOrientation(rotatedProjectionMatrix, orientation);
+<<<<<<< HEAD
+=======
+            double bearing = Math.toDegrees(orientation[0]) + declination;
+            tvBearing.setText(String.format("Bearing: %s", bearing));
+>>>>>>> 46acfa233c9730a0dfac4c6f0d5c8d3de5e286c0
         }
     }
 
@@ -303,9 +373,13 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
 //        }
     }
 
+<<<<<<< HEAD
 
     private void initLocationService() {
 
+=======
+    private void initLocationService() {
+>>>>>>> 46acfa233c9730a0dfac4c6f0d5c8d3de5e286c0
         if ( Build.VERSION.SDK_INT >= 23 &&
                 ContextCompat.checkSelfPermission( this, android.Manifest.permission.ACCESS_FINE_LOCATION ) != PackageManager.PERMISSION_GRANTED) {
             return  ;
@@ -354,7 +428,12 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
     private void updateLatestLocation() {
         if (arOverlayView !=null && location != null) {
             arOverlayView.updateCurrentLocation(location);
+<<<<<<< HEAD
             showCurrentPlace();
+=======
+            tvCurrentLocation.setText(String.format("lat: %s \nlon: %s \naltitude: %s \n",
+                    location.getLatitude(), location.getLongitude(), location.getAltitude()));
+>>>>>>> 46acfa233c9730a0dfac4c6f0d5c8d3de5e286c0
         }
     }
 
@@ -363,6 +442,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         updateLatestLocation();
     }
 
+<<<<<<< HEAD
 
     //현재 위치 주변의 건물을 탐색
     private void showCurrentPlace() {
@@ -440,6 +520,8 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
     }
 
 
+=======
+>>>>>>> 46acfa233c9730a0dfac4c6f0d5c8d3de5e286c0
     @Override
     public void onStatusChanged(String s, int i, Bundle bundle) {
 

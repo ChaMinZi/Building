@@ -4,7 +4,10 @@
 
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
+<<<<<<< HEAD
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>
+=======
+>>>>>>> 46acfa233c9730a0dfac4c6f0d5c8d3de5e286c0
     <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
     <uses-permission android:name="android.permission.SEND_SMS"/>
     <uses-permission android:name="android.permission.CAMERA"/>
