@@ -8,15 +8,18 @@ import android.location.Location;
 
 public class ARPoint {
     Location location;
-    String name, opertime;
+    String name, opertime, adress;
+    double rating;
 
-    public ARPoint(String name, double lat, double lon, double altitude, String opertime) {
+    public ARPoint(String name, double lat, double lon, double rating, String opertime, String adress) {
         this.name = name;
         this.opertime = opertime;
+        this.adress = adress;
+        this.rating = rating;
         location = new Location("ARPoint");
         location.setLatitude(lat);
         location.setLongitude(lon);
-        location.setAltitude(altitude);
+        location.setAltitude(rating);
     }
 
     public Location getLocation() {
@@ -26,4 +29,8 @@ public class ARPoint {
     public String getName() { return name; }
 
     public String getOpertime() { return opertime; }
+
+    public String getAdress() { return adress; }
+
+    public double getRating() { return rating; }
 }

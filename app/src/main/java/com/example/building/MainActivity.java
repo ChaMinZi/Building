@@ -38,6 +38,9 @@ import com.google.android.libraries.places.compat.PlaceLikelihood;
 import com.google.android.libraries.places.compat.PlaceLikelihoodBufferResponse;
 import com.google.android.libraries.places.compat.Places;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import static android.Manifest.permission.ACCESS_FINE_LOCATION;
 import static android.hardware.SensorManager.AXIS_MINUS_X;
 import static android.hardware.SensorManager.AXIS_MINUS_Y;
@@ -89,6 +92,8 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
     String[] cur_place_address;
     float[] cur_place_rating;
     LatLng[] cur_place_latlng;
+
+    private List<ARPoint> arPointList = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -320,6 +325,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         if (arOverlayView !=null && location != null) {
             arOverlayView.updateCurrentLocation(location);
             showCurrentPlace();
+            arOverlayView.setArPoints(arPointList);
             tvCurrentLocation.setText(String.format("lat: %s \nlon: %s \naltitude: %s \n",
                     location.getLatitude(), location.getLongitude(), location.getAltitude()));
         }
@@ -346,11 +352,10 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
                 double[] gradient = new double[count];
                 int[] sector = new int[count];
 
-
                 cur_place_name = new String[count];
                 cur_place_address = new String[count];
-                cur_place_rating = new float[count];
-                cur_place_latlng = new LatLng[count];
+                cur_place_rating = new float[count];//별점
+                cur_place_latlng = new LatLng[count];//위도, 경도
 
                 int i = 0;
                 for (PlaceLikelihood likelihood : likelyPlaces) {
@@ -359,6 +364,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
                     cur_place_rating[i] = likelihood.getPlace().getRating();
                     cur_place_latlng[i] = likelihood.getPlace().getLatLng();
 
+                    arPointList.add(new ARPoint(cur_place_name[i], cur_place_latlng[i].latitude, cur_place_latlng[i].longitude, cur_place_rating[i], "", cur_place_address[i]));
 
                     gradient[i] = (cur_place_latlng[i].latitude - location.getLatitude())
                             / (cur_place_latlng[i].longitude - location.getLongitude());

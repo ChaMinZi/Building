@@ -32,11 +32,15 @@ public class AROverlayView extends View {
         super(context);
         this.mContext = context;
 
-        //Demo points
-        arPoints = new ArrayList<ARPoint>() {{
-            add(new ARPoint("S", 10.0404856, 108.2262447, 0, "4.0"));
-            add(new ARPoint("L", 16.1072989, 108.2343984, 0, "2.1"));
-        }};
+//        //Demo points
+//        arPoints = new ArrayList<ARPoint>() {{
+//            add(new ARPoint("S", 10.0404856, 108.2262447, 0, "4.0", "동탄"));
+//            add(new ARPoint("L", 16.1072989, 108.2343984, 0, "2.1", "산척"));
+//        }};
+    }
+
+    public void setArPoints(List<ARPoint> newArray) {
+        arPoints = newArray;
     }
 
     public void updateRotatedProjectionMatrix(float[] rotatedProjectionMatrix) {
