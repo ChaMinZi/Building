@@ -19,15 +19,21 @@ import android.util.Log;
 import android.view.SurfaceView;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.building.model.ARCamera;
 
-import static android.hardware.SensorManager.*;
-import static android.view.Surface.*;
+import static android.hardware.SensorManager.AXIS_MINUS_X;
+import static android.hardware.SensorManager.AXIS_MINUS_Y;
+import static android.hardware.SensorManager.AXIS_X;
+import static android.hardware.SensorManager.AXIS_Y;
+import static android.hardware.SensorManager.SENSOR_DELAY_NORMAL;
+import static android.hardware.SensorManager.getOrientation;
+import static android.hardware.SensorManager.getRotationMatrixFromVector;
+import static android.hardware.SensorManager.remapCoordinateSystem;
 import static android.view.Surface.ROTATION_180;
 import static android.view.Surface.ROTATION_270;
+import static android.view.Surface.ROTATION_90;
 
 public class MainActivity extends AppCompatActivity implements SensorEventListener, LocationListener {
 
@@ -37,8 +43,6 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
     private AROverlayView arOverlayView;
     private Camera camera;
     private ARCamera arCamera;
-    private TextView tvCurrentLocation;
-    private TextView tvBearing;
 
     private SensorManager sensorManager;
     private final static int REQUEST_CAMERA_PERMISSIONS_CODE = 11;
@@ -204,9 +208,9 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
 
     @Override
     public void onAccuracyChanged(Sensor sensor, int accuracy) {
-        if (accuracy == SensorManager.SENSOR_STATUS_UNRELIABLE) {
-            Log.w("DeviceOrientation", "Orientation compass unreliable");
-        }
+//        if (accuracy == SensorManager.SENSOR_STATUS_UNRELIABLE) {
+//            Log.w("DeviceOrientation", "Orientation compass unreliable");
+//        }
     }
 
     private void initLocationService() {
