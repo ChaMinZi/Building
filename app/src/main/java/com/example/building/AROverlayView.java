@@ -66,12 +66,12 @@ public class AROverlayView extends View {
                 for(int i=0 ; i<displayPointF.size(); i++){
                     if(PointFDistance(new PointF(x,y), displayPointF.get(i))<=radius){
                         Log.e("touchShelter", displayARPoint.get(i).getName());
+                        return true;
                     }
                 }
             }
         }
-
-        return true;
+        return false;
     }
 
     @Override

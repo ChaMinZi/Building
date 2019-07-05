@@ -35,4 +35,10 @@
         android:textColor="@android:color/white"
         android:text="GPS is loading..."/>
 
+    <FrameLayout
+        android:id="@+id/fragmentView"
+        android:layout_width="350dp"
+        android:layout_height="500dp"
+        android:layout_gravity="center"/>
+
 </FrameLayout>

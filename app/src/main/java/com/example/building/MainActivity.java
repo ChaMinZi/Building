@@ -13,6 +13,8 @@ import android.location.LocationManager;
 import android.opengl.Matrix;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -58,6 +60,8 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
     boolean locationServiceAvailable;
     private float declination;
 
+    boolean InfoVisible = false;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -67,6 +71,11 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         cameraContainerLayout = findViewById(R.id.camera_container_layout);
         surfaceView = findViewById(R.id.surface_view);
         arOverlayView = new AROverlayView(this);
+
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.add(R.id.fragmentView, new InfoFragment());
+        fragmentTransaction.commit();
     }
 
     @Override
@@ -214,7 +223,6 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
     }
 
     private void initLocationService() {
-
         if ( Build.VERSION.SDK_INT >= 23 &&
                 ContextCompat.checkSelfPermission( this, android.Manifest.permission.ACCESS_FINE_LOCATION ) != PackageManager.PERMISSION_GRANTED) {
             return  ;
