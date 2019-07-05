@@ -1,10 +1,6 @@
 package com.example.building;
 
 import android.Manifest;
-<<<<<<< HEAD
-import android.app.FragmentManager;
-=======
->>>>>>> 46acfa233c9730a0dfac4c6f0d5c8d3de5e286c0
 import android.content.pm.PackageManager;
 import android.hardware.Camera;
 import android.hardware.Sensor;
@@ -17,37 +13,32 @@ import android.location.LocationManager;
 import android.opengl.Matrix;
 import android.os.Build;
 import android.os.Bundle;
-<<<<<<< HEAD
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
-=======
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
->>>>>>> 46acfa233c9730a0dfac4c6f0d5c8d3de5e286c0
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.SurfaceView;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
-<<<<<<< HEAD
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.building.model.ARCamera;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
-import com.google.android.gms.maps.CameraUpdateFactory;
-import com.google.android.gms.maps.MapFragment;
-import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.android.libraries.places.compat.PlaceDetectionClient;
+import com.google.android.libraries.places.compat.PlaceLikelihood;
+import com.google.android.libraries.places.compat.PlaceLikelihoodBufferResponse;
+import com.google.android.libraries.places.compat.Places;
 
 import static android.Manifest.permission.ACCESS_FINE_LOCATION;
-=======
-import android.widget.TextView;
-import android.widget.Toast;
-
-import com.example.building.model.ARCamera;
-
->>>>>>> 46acfa233c9730a0dfac4c6f0d5c8d3de5e286c0
 import static android.hardware.SensorManager.AXIS_MINUS_X;
 import static android.hardware.SensorManager.AXIS_MINUS_Y;
 import static android.hardware.SensorManager.AXIS_X;
@@ -60,23 +51,7 @@ import static android.view.Surface.ROTATION_180;
 import static android.view.Surface.ROTATION_270;
 import static android.view.Surface.ROTATION_90;
 
-<<<<<<< HEAD
-import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.MarkerOptions;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
-import com.google.android.libraries.places.compat.GeoDataClient;
-import com.google.android.libraries.places.compat.PlaceDetectionClient;
-import com.google.android.libraries.places.compat.PlaceLikelihood;
-import com.google.android.libraries.places.compat.PlaceLikelihoodBufferResponse;
-import com.google.android.libraries.places.compat.Places;
-
-
-public class MainActivity extends AppCompatActivity implements SensorEventListener, LocationListener, OnMapReadyCallback {
-=======
 public class MainActivity extends AppCompatActivity implements SensorEventListener, LocationListener {
->>>>>>> 46acfa233c9730a0dfac4c6f0d5c8d3de5e286c0
 
     final static String TAG = "ARActivity";
     private SurfaceView surfaceView;
@@ -84,11 +59,8 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
     private AROverlayView arOverlayView;
     private Camera camera;
     private ARCamera arCamera;
-<<<<<<< HEAD
-=======
     private TextView tvCurrentLocation;
     private TextView tvBearing;
->>>>>>> 46acfa233c9730a0dfac4c6f0d5c8d3de5e286c0
 
     private SensorManager sensorManager;
     private final static int REQUEST_CAMERA_PERMISSIONS_CODE = 11;
@@ -104,7 +76,9 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
     boolean locationServiceAvailable;
     private float declination;
 
-<<<<<<< HEAD
+    boolean InfoVisible = false;
+    private InfoFragment infoFragment;
+
     private GoogleMap mMap;
     PlaceDetectionClient placeDetectionClient;
     private boolean mLocationPermissionGranted;
@@ -115,37 +89,24 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
     String[] cur_place_address;
     float[] cur_place_rating;
     LatLng[] cur_place_latlng;
-=======
-    boolean InfoVisible = false;
-    private InfoFragment infoFragment;
->>>>>>> 46acfa233c9730a0dfac4c6f0d5c8d3de5e286c0
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-<<<<<<< HEAD
-=======
         if (savedInstanceState == null) {
             infoFragment = new InfoFragment();
         }
->>>>>>> 46acfa233c9730a0dfac4c6f0d5c8d3de5e286c0
         sensorManager = (SensorManager) this.getSystemService(SENSOR_SERVICE);
         cameraContainerLayout = findViewById(R.id.camera_container_layout);
         surfaceView = findViewById(R.id.surface_view);
         arOverlayView = new AROverlayView(this);
-<<<<<<< HEAD
+        tvCurrentLocation = findViewById(R.id.tv_current_location);
+        tvBearing = findViewById(R.id.tv_bearing);
 
         placeDetectionClient = Places.getPlaceDetectionClient(this);
         mFusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
-
-        FragmentManager fragmentManager = getFragmentManager();
-        MapFragment mapFragment = (MapFragment)fragmentManager.findFragmentById(R.id.map);
-        mapFragment.getMapAsync(this);
-=======
-        tvCurrentLocation = findViewById(R.id.tv_current_location);
-        tvBearing = findViewById(R.id.tv_bearing);
     }
 
     protected void displayFragment(boolean visible){
@@ -161,7 +122,6 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
             fragmentTransaction.show(infoFragment);
 
         fragmentTransaction.commit();
->>>>>>> 46acfa233c9730a0dfac4c6f0d5c8d3de5e286c0
     }
 
     @Override
@@ -169,10 +129,6 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
         super.onResume();
         requestCameraPermission();
         requestLocationPermission();
-<<<<<<< HEAD
-        //getDeviceLocation();
-=======
->>>>>>> 46acfa233c9730a0dfac4c6f0d5c8d3de5e286c0
         registerSensors();
         initAROverlayView();
     }
@@ -198,65 +154,9 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
             this.requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, REQUEST_LOCATION_PERMISSIONS_CODE);
         } else {
             initLocationService();
-<<<<<<< HEAD
-            //mLocationPermissionGranted = true;
         }
     }
 
-
-
-    /*
-    @Override
-    public void onRequestPermissionsResult(int requestCode,
-                                           @NonNull String permissions[],
-                                           @NonNull int[] grantResults) {
-        mLocationPermissionGranted = false;
-        switch (requestCode) {
-            case REQUEST_LOCATION_PERMISSIONS_CODE: {
-                // If request is cancelled, the result arrays are empty.
-                if (grantResults.length > 0
-                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    mLocationPermissionGranted = true;
-                }
-            }
-        }
-    }
-
-
-    private void getDeviceLocation() {
-        try {
-            if (mLocationPermissionGranted) {
-                Task<Location> locationResult = mFusedLocationProviderClient.getLastLocation();
-                locationResult.addOnCompleteListener(this, new OnCompleteListener<Location>() {
-                    @Override
-                    public void onComplete(@NonNull Task<Location> task) {
-                        if (task.isSuccessful()) {
-                            // Set the map's camera position to the current location of the device.
-                            mLastKnownLocation = task.getResult();
-                            location = mLastKnownLocation;
-                            updateLatestLocation();
-                        } else {
-                            Log.d(TAG, "Current location is null. Using defaults.");
-                            Log.e(TAG, "Exception: %s", task.getException());
-                            /*
-                            mMap.moveCamera(CameraUpdateFactory
-                                    .newLatLngZoom(mDefaultLocation, DEFAULT_ZOOM));
-                            mMap.getUiSettings().setMyLocationButtonEnabled(false);
-
-                        }
-                    }
-                });
-            }
-        } catch (SecurityException e)  {
-            Log.e("Exception: %s", e.getMessage());
-        }
-    }*/
-
-=======
-        }
-    }
-
->>>>>>> 46acfa233c9730a0dfac4c6f0d5c8d3de5e286c0
     public void initAROverlayView() {
         if (arOverlayView.getParent() != null) {
             ((ViewGroup) arOverlayView.getParent()).removeView(arOverlayView);
@@ -358,11 +258,8 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
             //Heading
             float[] orientation = new float[3];
             getOrientation(rotatedProjectionMatrix, orientation);
-<<<<<<< HEAD
-=======
             double bearing = Math.toDegrees(orientation[0]) + declination;
             tvBearing.setText(String.format("Bearing: %s", bearing));
->>>>>>> 46acfa233c9730a0dfac4c6f0d5c8d3de5e286c0
         }
     }
 
@@ -373,13 +270,7 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
 //        }
     }
 
-<<<<<<< HEAD
-
     private void initLocationService() {
-
-=======
-    private void initLocationService() {
->>>>>>> 46acfa233c9730a0dfac4c6f0d5c8d3de5e286c0
         if ( Build.VERSION.SDK_INT >= 23 &&
                 ContextCompat.checkSelfPermission( this, android.Manifest.permission.ACCESS_FINE_LOCATION ) != PackageManager.PERMISSION_GRANTED) {
             return  ;
@@ -428,21 +319,11 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
     private void updateLatestLocation() {
         if (arOverlayView !=null && location != null) {
             arOverlayView.updateCurrentLocation(location);
-<<<<<<< HEAD
             showCurrentPlace();
-=======
             tvCurrentLocation.setText(String.format("lat: %s \nlon: %s \naltitude: %s \n",
                     location.getLatitude(), location.getLongitude(), location.getAltitude()));
->>>>>>> 46acfa233c9730a0dfac4c6f0d5c8d3de5e286c0
         }
     }
-
-    @Override
-    public void onLocationChanged(Location location) {
-        updateLatestLocation();
-    }
-
-<<<<<<< HEAD
 
     //현재 위치 주변의 건물을 탐색
     private void showCurrentPlace() {
@@ -494,34 +375,16 @@ public class MainActivity extends AppCompatActivity implements SensorEventListen
                     i++;
                 }
 
-
-
                 likelyPlaces.release();
             }
         });
     }
 
     @Override
-    public void onMapReady(GoogleMap googleMap) {
-        mMap = googleMap;
-        LatLng SEOUL = new LatLng(37.56, 126.97);
-
-        MarkerOptions markerOptions = new MarkerOptions();
-        markerOptions.position(SEOUL);
-        markerOptions.title("서울");
-        markerOptions.snippet("한국의 수도");
-        mMap.addMarker(markerOptions);
-
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(SEOUL));
-        mMap.animateCamera(CameraUpdateFactory.zoomTo(10));
-
-        FrameLayout mapLayout = (FrameLayout) findViewById(R.id.map);
-        mapLayout.animate().translationY(900).translationX(900).setDuration(0);
+    public void onLocationChanged(Location location) {
+        updateLatestLocation();
     }
 
-
-=======
->>>>>>> 46acfa233c9730a0dfac4c6f0d5c8d3de5e286c0
     @Override
     public void onStatusChanged(String s, int i, Bundle bundle) {
 
