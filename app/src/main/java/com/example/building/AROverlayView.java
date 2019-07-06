@@ -16,6 +16,7 @@ import com.example.building.helper.LocationHelper;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 public class AROverlayView extends View {
 
@@ -79,6 +80,15 @@ public class AROverlayView extends View {
         return false;
     }
 
+    public boolean IsPossiDraw(PointF point) {
+        for (int idx =0; displayPointF != null && idx<displayPointF.size(); idx++) {
+            if (PointFDistance(point, displayPointF.get(idx)) <= radius) {
+                return false;
+            }
+        }
+        return true;
+    }
+
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
@@ -109,11 +119,24 @@ public class AROverlayView extends View {
                 float x  = (0.5f + cameraCoordinateVector[0]/cameraCoordinateVector[3]) * canvas.getWidth();
                 float y = (0.5f - cameraCoordinateVector[1]/cameraCoordinateVector[3]) * canvas.getHeight();
 
+                float tempY = y;
+                int bound = canvas.getHeight()/2, diff;
+                Random generator = new Random();
+                //그릴 수 있는 영역인가 check
+                while (!IsPossiDraw(new PointF(x, tempY))) {
+                    diff = bound;
+                    while ((tempY + diff) >= bound) {
+                        diff = generator.nextInt(bound*2) - bound;
+                    }
+                    tempY = y+diff;
+                }
+                y = tempY;
+
                 displayPointF.add(new PointF(x, y));
                 displayARPoint.add(arPoints.get(i));
                 canvas.drawCircle(x, y, radius, paint);
-                canvas.drawText(arPoints.get(i).getName(), x - (30 * arPoints.get(i).getName().length() / 2), y - 100, paint);
-                canvas.drawText(arPoints.get(i).getOpertime(), x - (30 * arPoints.get(i).getName().length() / 2), y-30, paint);
+                //canvas.drawText(arPoints.get(i).getName(), x - (30 * arPoints.get(i).getName().length() / 2), y - 100, paint);
+                //canvas.drawText(arPoints.get(i).getOpertime(), x - (30 * arPoints.get(i).getName().length() / 2), y-30, paint);
             }
         }
     }
